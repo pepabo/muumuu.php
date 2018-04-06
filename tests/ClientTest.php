@@ -39,22 +39,37 @@ class ClientTest extends TestCase
     public function testGetDomainMaster()
     {
         $client = new Client();
-        $client->setMock($this->createMockHttpClient('/domain_master'));
+        $client->setMock($this->createMockHttpClient('get', '/domain_master'));
         $client->getDomainMaster();
     }
 
     public function testGetCarts()
     {
         $client = new Client();
-        $client->setMock($this->createMockHttpClient('/carts'));
+        $client->setMock($this->createMockHttpClient('get', '/carts'));
         $client->getCarts();
     }
 
-    private function createMockHttpClient($path)
+    public function testCalcurate()
+    {
+        $client = new Client();
+        $client->setMock($this->createMockHttpClient('post', '/calculate'));
+        $client->calculate([
+            'cart_domains' => [
+                [
+                    'sld'           => 'muumuu-domain-test',
+                    'tld'           => 'com',
+                    'contract_term' => 1
+                ]
+            ]
+        ]);
+    }
+
+    private function createMockHttpClient($method, $path)
     {
         $mock = $this->createMock(HttpClient::class);
         $mock->expects($this->once())
-             ->method('get')
+             ->method($method)
              ->with($this->equalTo($path));
         return $mock;
     }
