@@ -1,0 +1,7 @@
+{
+    "name": "muumuu-domain/muumuu.php",
+    "description": "API Client for MuumuuDomain.",
+    "type": "library",
+    "license": "MIT",
+    "require": {}
+}
