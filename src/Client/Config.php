@@ -3,12 +3,13 @@ namespace Muumuu\Client;
 
 class Config
 {
-    private static $defaultEndpoint = 'https://muumuu-domain.com/api/v1';
+    private static $defaultEndpoint = null;
     private $endpoint;
 
     public function __construct(array $config)
     {
-        $this->endpoint = isset($config['endpoint']) ?: self::$defaultEndpoint;
+        $this->endpoint = isset($config['endpoint']) ? $config['endpoint']
+                                                     : self::$defaultEndpoint ?: 'https://muumuu-domain.com/api/v1';
     }
 
     public static function set(array $config)
