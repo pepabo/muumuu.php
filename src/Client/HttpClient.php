@@ -13,13 +13,21 @@ class HttpClient
         $this->config = $config;
     }
 
-    public function get($path = '') {
-        $response = $this->request('GET', $path);
+    public function get($path = '', $params = []) {
+        $response = $this->request('GET', $path, $params);
         return new Response($response);
     }
 
-    private function request($method, $path) {
-        $options = ['http_errors' => false];
+    public function post($path = '', $params = []) {
+        $response = $this->request('POST', $path, $params);
+        return new Response($response);
+    }
+
+    private function request($method, $path, $params) {
+        $options = [
+            'http_errors' => false,
+            'json' => $params
+        ];
 
         if (!empty($this->config->token())) {
             $options = array_merge($options, [
