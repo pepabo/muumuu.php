@@ -22,8 +22,20 @@ class ClientTest extends TestCase
 
         $client = new Client();
         $this->assertEquals('https://test.muumuu-domain.com/api/v1', $client->getConfig()->endpoint());
+        $this->assertEquals('', $client->getConfig()->token());
     }
 
+    public function testConfigureWithToken()
+    {
+        Client::configure([
+            'endpoint' => 'https://test.muumuu-domain.com/api/v1',
+            'token' => 'bearer-token-xxx',
+        ]);
+
+        $client = new Client();
+        $this->assertEquals('https://test.muumuu-domain.com/api/v1', $client->getConfig()->endpoint());
+        $this->assertEquals('bearer-token-xxx', $client->getConfig()->token());
+    }
     public function testGetDomainMaster()
     {
         $client = new Client();
