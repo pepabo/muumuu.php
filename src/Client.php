@@ -28,6 +28,11 @@ class Client {
         return $this->httpClient->get('/carts');
     }
 
+    public function calculate($params)
+    {
+        return $this->httpClient->post('/calculate', ['cart' => $params]);
+    }
+
     public function getConfig()
     {
         return $this->config;

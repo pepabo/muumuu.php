@@ -56,3 +56,17 @@ $client = new Muumuu\Client([
 ]);
 $client->getCarts();
 ```
+
+### Support APIs
+
+```php
+<?php
+$client = new Muumuu\Client();
+
+// without authentication
+$client->getDomainMaster();           // GET /domain_master
+
+// required authentication
+$client->getCarts();                  // GET /carts
+$client->calculate([]);               // POST /calculate
+```
