@@ -3,7 +3,9 @@
     "description": "API Client for MuumuuDomain.",
     "type": "library",
     "license": "MIT",
-    "require": {},
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
     "require-dev": {
         "phpunit/phpunit": "^5.7"
     },
