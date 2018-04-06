@@ -26,13 +26,24 @@ class ClientTest extends TestCase
 
     public function testGetDomainMaster()
     {
+        $client = new Client();
+        $client->setMock($this->createMockHttpClient('/domain_master'));
+        $client->getDomainMaster();
+    }
+
+    public function testGetCarts()
+    {
+        $client = new Client();
+        $client->setMock($this->createMockHttpClient('/carts'));
+        $client->getCarts();
+    }
+
+    private function createMockHttpClient($path)
+    {
         $mock = $this->createMock(HttpClient::class);
         $mock->expects($this->once())
              ->method('get')
-             ->with($this->equalTo('/domain_master'));
-
-        $client = new Client();
-        $client->setMock($mock);
-        $client->getDomainMaster();
+             ->with($this->equalTo($path));
+        return $mock;
     }
 }
