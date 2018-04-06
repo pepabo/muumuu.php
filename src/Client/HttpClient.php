@@ -9,21 +9,25 @@ class HttpClient
     private $config;
     private $httpClient;
 
-    public function __construct(Config $config) {
+    public function __construct(Config $config)
+    {
         $this->config = $config;
     }
 
-    public function get($path = '', $params = []) {
+    public function get($path = '', $params = [])
+    {
         $response = $this->request('GET', $path, $params);
         return new Response($response);
     }
 
-    public function post($path = '', $params = []) {
+    public function post($path = '', $params = [])
+    {
         $response = $this->request('POST', $path, $params);
         return new Response($response);
     }
 
-    private function request($method, $path, $params) {
+    private function request($method, $path, $params)
+    {
         $options = [
             'http_errors' => false,
             'json' => $params
@@ -40,11 +44,13 @@ class HttpClient
         return $this->httpClient()->request($method, $this->config->endpoint().$path, $options);
     }
 
-    private function httpClient() {
+    private function httpClient()
+    {
         return $this->httpClient ?: $this->httpClient = new \GuzzleHttp\Client();
     }
 
-    public function setMock($mock) {
+    public function setMock($mock)
+    {
         $this->httpClient = $mock;
     }
 }

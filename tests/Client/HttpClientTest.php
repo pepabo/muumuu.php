@@ -51,7 +51,8 @@ class HttpClientTest extends TestCase
         $this->assertEquals(['muumuu' => 'domain'], $response->body());
     }
 
-    private function createMockClient($method, $path, array $params = [], array $headers = []) {
+    private function createMockClient($method, $path, array $params = [], array $headers = [])
+    {
         $options = [
             'http_errors' => false,
             'json' => $params
@@ -73,7 +74,8 @@ class HttpClientTest extends TestCase
         return $mock;
     }
 
-    private function createMockResponse() {
+    private function createMockResponse()
+    {
         return new \GuzzleHttp\Psr7\Response(
             200,                    // statusCode
             [],                     // header
