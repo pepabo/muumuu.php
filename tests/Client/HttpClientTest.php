@@ -22,7 +22,7 @@ class HttpClientTest extends TestCase
         $client = new HttpClient(new Config([
             'token' => 'bearer-token-xxx'
         ]));
-        $client->setMock($this->createMockClient($path, ['Authorization' => 'Bearer bearer-token-xxx']));
+        $client->setMock($this->createMockClient('GET', $path, [], ['Authorization' => 'Bearer bearer-token-xxx']));
 
         $response = $client->get($path);
     }
@@ -32,15 +32,30 @@ class HttpClientTest extends TestCase
         $path = '/hello';
 
         $client = new HttpClient(new Config([]));
-        $client->setMock($this->createMockClient($path));
+        $client->setMock($this->createMockClient('GET', $path));
 
         $response = $client->get($path);
         $this->assertEquals(200, $response->statusCode());
         $this->assertEquals(['muumuu' => 'domain'], $response->body());
     }
 
-    private function createMockClient($path, array $headers = []) {
-        $options = ['http_errors' => false];
+    public function testPost()
+    {
+        $path = '/hello';
+
+        $client = new HttpClient(new Config([]));
+        $client->setMock($this->createMockClient('POST', $path));
+
+        $response = $client->post($path);
+        $this->assertEquals(200, $response->statusCode());
+        $this->assertEquals(['muumuu' => 'domain'], $response->body());
+    }
+
+    private function createMockClient($method, $path, array $params = [], array $headers = []) {
+        $options = [
+            'http_errors' => false,
+            'json' => $params
+        ];
         if ($headers) {
             $options = array_merge($options, ['headers' => $headers]);
         }
@@ -49,7 +64,7 @@ class HttpClientTest extends TestCase
         $mock->expects($this->once())
              ->method('request')
              ->with(
-                 $this->equalTo('GET'),
+                 $this->equalTo($method),
                  $this->equalTo("https://muumuu-domain.com/api/v1{$path}"),
                  $this->equalTo($options)
              )
