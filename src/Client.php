@@ -4,11 +4,13 @@ namespace Muumuu;
 use Muumuu\Client\Config;
 use Muumuu\Client\HttpClient;
 
-class Client {
+class Client
+{
     private $config;
     private $httpClient;
 
-    public function __construct(array $config = []) {
+    public function __construct(array $config = [])
+    {
         $this->config = new Config($config);
         $this->httpClient = new HttpClient($this->config);
     }
@@ -38,7 +40,8 @@ class Client {
         return $this->config;
     }
 
-    public function setMock($mock) {
+    public function setMock($mock)
+    {
         $this->httpClient = $mock;
     }
 }

@@ -18,7 +18,8 @@ class ResponseTest extends TestCase
         $this->assertEquals(["muumuu" => "domain"], $response->body());
     }
 
-    private function createMockResponse() {
+    private function createMockResponse()
+    {
         return new \GuzzleHttp\Psr7\Response(
             200,                    // statusCode
             [],                     // header
