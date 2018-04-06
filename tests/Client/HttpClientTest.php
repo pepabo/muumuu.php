@@ -7,25 +7,55 @@ use Muumuu\Client\HttpClient;
 
 class HttpClientTest extends TestCase
 {
+    public function tearDown()
+    {
+        Config::set([
+            'endpoint' => '',
+            'token' => '',
+        ]);
+    }
+
+    public function testWithToken()
+    {
+        $path = '/hello';
+
+        $client = new HttpClient(new Config([
+            'token' => 'bearer-token-xxx'
+        ]));
+        $client->setMock($this->createMockClient($path, ['Authorization' => 'Bearer bearer-token-xxx']));
+
+        $response = $client->get($path);
+    }
+
     public function testGet()
     {
         $path = '/hello';
+
+        $client = new HttpClient(new Config([]));
+        $client->setMock($this->createMockClient($path));
+
+        $response = $client->get($path);
+        $this->assertEquals(200, $response->statusCode());
+        $this->assertEquals(['muumuu' => 'domain'], $response->body());
+    }
+
+    private function createMockClient($path, array $headers = []) {
+        $options = ['http_errors' => false];
+        if ($headers) {
+            $options = array_merge($options, ['headers' => $headers]);
+        }
 
         $mock = $this->createMock(\GuzzleHttp\Client::class);
         $mock->expects($this->once())
              ->method('request')
              ->with(
                  $this->equalTo('GET'),
-                 $this->equalTo("https://muumuu-domain.com/api/v1{$path}")
+                 $this->equalTo("https://muumuu-domain.com/api/v1{$path}"),
+                 $this->equalTo($options)
              )
              ->will($this->returnValue($this->createMockResponse()));
 
-        $client = new HttpClient(new Config([]));
-        $client->setMock($mock);
-
-        $response = $client->get($path);
-        $this->assertEquals(200, $response->statusCode());
-        $this->assertEquals(['muumuu' => 'domain'], $response->body());
+        return $mock;
     }
 
     private function createMockResponse() {

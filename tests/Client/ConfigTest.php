@@ -9,7 +9,8 @@ class ConfigTest extends TestCase
     public function tearDown()
     {
         Config::set([
-            'endpoint' => null,
+            'endpoint' => '',
+            'token' => '',
         ]);
     }
 
@@ -17,14 +18,17 @@ class ConfigTest extends TestCase
     {
         $config = new Config([]);
         $this->assertEquals('https://muumuu-domain.com/api/v1', $config->endpoint());
+        $this->assertEquals(null, $config->token());
     }
 
     public function testSet()
     {
         Config::set([
-            'endpoint' => 'https://test.muumuu-domain.com/api/v1'
+            'endpoint' => 'https://test.muumuu-domain.com/api/v1',
+            'token' => 'bearer-token-xxx'
         ]);
         $config = new Config([]);
         $this->assertEquals('https://test.muumuu-domain.com/api/v1', $config->endpoint());
+        $this->assertEquals('bearer-token-xxx', $config->token());
     }
 }

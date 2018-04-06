@@ -14,8 +14,22 @@ class HttpClient
     }
 
     public function get($path = '') {
-        $response = $this->httpClient()->request('GET', $this->config->endpoint().$path);
+        $response = $this->request('GET', $path);
         return new Response($response);
+    }
+
+    private function request($method, $path) {
+        $options = ['http_errors' => false];
+
+        if (!empty($this->config->token())) {
+            $options = array_merge($options, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->config->token()
+                ]
+            ]);
+        }
+
+        return $this->httpClient()->request($method, $this->config->endpoint().$path, $options);
     }
 
     private function httpClient() {

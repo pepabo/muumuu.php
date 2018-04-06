@@ -23,6 +23,11 @@ class Client {
         return $this->httpClient->get('/domain_master');
     }
 
+    public function getCarts()
+    {
+        return $this->httpClient->get('/carts');
+    }
+
     public function getConfig()
     {
         return $this->config;

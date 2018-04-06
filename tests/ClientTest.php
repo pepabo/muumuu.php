@@ -9,7 +9,8 @@ class ClientTest extends TestCase
     public function tearDown()
     {
         Client::configure([
-            'endpoint' => null,
+            'endpoint' => '',
+            'token' => '',
         ]);
     }
 
@@ -21,17 +22,40 @@ class ClientTest extends TestCase
 
         $client = new Client();
         $this->assertEquals('https://test.muumuu-domain.com/api/v1', $client->getConfig()->endpoint());
+        $this->assertEquals('', $client->getConfig()->token());
     }
 
+    public function testConfigureWithToken()
+    {
+        Client::configure([
+            'endpoint' => 'https://test.muumuu-domain.com/api/v1',
+            'token' => 'bearer-token-xxx',
+        ]);
+
+        $client = new Client();
+        $this->assertEquals('https://test.muumuu-domain.com/api/v1', $client->getConfig()->endpoint());
+        $this->assertEquals('bearer-token-xxx', $client->getConfig()->token());
+    }
     public function testGetDomainMaster()
+    {
+        $client = new Client();
+        $client->setMock($this->createMockHttpClient('/domain_master'));
+        $client->getDomainMaster();
+    }
+
+    public function testGetCarts()
+    {
+        $client = new Client();
+        $client->setMock($this->createMockHttpClient('/carts'));
+        $client->getCarts();
+    }
+
+    private function createMockHttpClient($path)
     {
         $mock = $this->createMock(HttpClient::class);
         $mock->expects($this->once())
              ->method('get')
-             ->with($this->equalTo('/domain_master'));
-
-        $client = new Client();
-        $client->setMock($mock);
-        $client->getDomainMaster();
+             ->with($this->equalTo($path));
+        return $mock;
     }
 }
