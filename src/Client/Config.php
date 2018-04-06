@@ -12,7 +12,8 @@ class Config
     {
         $this->endpoint = isset($config['endpoint']) ? $config['endpoint']
                                                      : self::$defaultEndpoint ?: 'https://muumuu-domain.com/api/v1';
-        $this->token = isset($config['token']) ? $config['token'] : null;
+        $this->token = isset($config['token']) ? $config['token']
+                                               : self::$defaultToken ?: null;
     }
 
     public static function set(array $config)
