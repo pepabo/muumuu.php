@@ -9,7 +9,8 @@ class ConfigTest extends TestCase
     public function tearDown()
     {
         Config::set([
-            'endpoint' => null,
+            'endpoint' => '',
+            'token' => '',
         ]);
     }
 

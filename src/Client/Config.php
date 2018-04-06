@@ -3,8 +3,8 @@ namespace Muumuu\Client;
 
 class Config
 {
-    private static $defaultEndpoint = null;
-    private static $defaultToken = null;
+    private static $defaultEndpoint = '';
+    private static $defaultToken = '';
     private $endpoint;
     private $token;
 
@@ -19,7 +19,7 @@ class Config
     public static function set(array $config)
     {
         self::$defaultEndpoint = $config['endpoint'];
-        if (isset($config['token'])) {
+        if (isset($config['token']) && !is_null($config['token'])) {
             self::$defaultToken = $config['token'];
         }
     }

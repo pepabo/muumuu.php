@@ -9,7 +9,8 @@ class ClientTest extends TestCase
     public function tearDown()
     {
         Client::configure([
-            'endpoint' => null,
+            'endpoint' => '',
+            'token' => '',
         ]);
     }
 
