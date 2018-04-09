@@ -37,8 +37,8 @@ class HttpClient
             'json' => $params
         ];
 
-        if (!is_null($this->token)) {
-            $options['headers']['Authorization'] = 'Bearer ' . $this->token;
+        if (!is_null($this->getToken())) {
+            $options['headers']['Authorization'] = 'Bearer ' . $this->getToken();
         }
 
         return $this->httpClient()->request($method, $this->config->endpoint().$path, $options);
