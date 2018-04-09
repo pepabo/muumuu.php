@@ -8,3 +8,6 @@ before_script:
 script:
   - vendor/bin/phpunit tests/
   - vendor/bin/php-cs-fixer fix --dry-run --diff ./
+notifications:
+  slack:
+    secure: rOEojfDED4vVfh/VGjDcLAmHySsLFZQv9HWHaimxwyqO+hPaoojtIjRbdIS5/8a21hl7GHrnjrWySqi8tAdIG8D1KrQaW2hX2gDjlGkmIiNvIAPdSSl/Uc3+4WDqa+2DcKJLgWy3x0mSA73pJ21h36YbmI4bgGJ9hu/TTg2WXr+S5dHbd84VKaGnmj2GcokjNZYU9prlHZyqmmP1eEtBsWaxNhszXQ+h2nty4Sx0j2VEFqYG/CmvSce+mVhzvu7973DsDDIdxY+t7lAZjidpf+8BN84QPsCsolNOJ8rS1IqRQoF07H8NvyprOd4B7t0JB89xZKeRNg41vWRMfGOlX749A16R2F3TCbzpfV/fqqS/hi1UCtiTb4ObNEB27C7r3O7f1q1mNsrqJS2GvEODLFuLiXHJ0LZX8B8E+g6Yzkke459CNFfabo8ztEuHoRRSDN3tkXN1AEgdqXqvJLzMlMEX4fDkiQSj5tF7KDZslIzp3kJ8aXaclUQ9LiAswKNFWnQI8aQiryQ4yqorn2t9GfP4O+mGsFXSvEK9QVDkoh+i7BvKq1W2T6AvTC++kwTgSP3Pdybz5I53MGccKxT267J59kzCQJqswK8DY8EKH5pWkfPlQ4wFwkITF3oJnqNfyPjlZj8AVoal1d+FTjqu6ETXgL+ZKy5ns/kt2D6iH1U=
