@@ -11,7 +11,6 @@ class ClientTest extends TestCase
     {
         Client::configure([
             'endpoint' => '',
-            'token' => '',
         ]);
     }
 
@@ -23,19 +22,6 @@ class ClientTest extends TestCase
 
         $client = new Client();
         $this->assertEquals('https://test.muumuu-domain.com/api/v1', $client->getConfig()->endpoint());
-        $this->assertEquals('', $client->getConfig()->token());
-    }
-
-    public function testConfigureWithToken()
-    {
-        Client::configure([
-            'endpoint' => 'https://test.muumuu-domain.com/api/v1',
-            'token' => 'bearer-token-xxx',
-        ]);
-
-        $client = new Client();
-        $this->assertEquals('https://test.muumuu-domain.com/api/v1', $client->getConfig()->endpoint());
-        $this->assertEquals('bearer-token-xxx', $client->getConfig()->token());
     }
 
     public function testAuthenticate()
@@ -50,7 +36,7 @@ class ClientTest extends TestCase
 
         $client->setMock($this->createMockHttpClient('post', '/authentication', $responseMock));
         $client->authenticate('id', 'password');
-        $this->assertEquals($expectedToken, $client->getConfig()->token());
+        $this->assertEquals($expectedToken, $client->getToken());
     }
 
     public function testGetDomainMaster()
@@ -84,7 +70,10 @@ class ClientTest extends TestCase
 
     private function createMockHttpClient($method, $path, $res = null)
     {
-        $mock = $this->createMock(HttpClient::class);
+        $mock = $this->getMockBuilder(HttpClient::class)
+                     ->disableOriginalConstructor()
+                     ->setMethods([$method])
+                     ->getMock();
         $mock->expects($this->once())
              ->method($method)
              ->with($this->equalTo($path))

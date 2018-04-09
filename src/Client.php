@@ -27,13 +27,12 @@ class Client
             'password' => $password
         ]);
 
-        if ($res->statusCode() === 201) {
-            $token = $res->body()['jwt'];
-            $this->config->setToken($token);
-            return $token;
-        } else {
+        if ($res->statusCode() !== 201) {
             return false;
         }
+
+        $this->setToken($res->body()['jwt']);
+        return true;
     }
 
     public function getDomainMaster()
@@ -49,6 +48,16 @@ class Client
     public function calculate($params)
     {
         return $this->httpClient->post('/calculate', ['cart' => $params]);
+    }
+
+    public function setToken($token)
+    {
+        $this->httpClient->setToken($token);
+    }
+
+    public function getToken()
+    {
+        return $this->httpClient->getToken();
     }
 
     public function getConfig()
