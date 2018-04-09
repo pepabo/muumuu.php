@@ -30,15 +30,14 @@ class HttpClient
     {
         $options = [
             'http_errors' => false,
+            'headers' => [
+                'Content-Type: application/json'
+            ],
             'json' => $params
         ];
 
         if (!empty($this->config->token())) {
-            $options = array_merge($options, [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->config->token()
-                ]
-            ]);
+            $options['headers']['Authorization'] = 'Bearer ' . $this->config->token();
         }
 
         return $this->httpClient()->request($method, $this->config->endpoint().$path, $options);

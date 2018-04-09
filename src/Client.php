@@ -20,6 +20,22 @@ class Client
         Config::set($config);
     }
 
+    public function authenticate($id, $password)
+    {
+        $res = $this->httpClient->post('/authentication', [
+            'id' => $id,
+            'password' => $password
+        ]);
+
+        if ($res->statusCode() === 201) {
+            $token = $res->body()['jwt'];
+            $this->config->setToken($token);
+            return $token;
+        } else {
+            return false;
+        }
+    }
+
     public function getDomainMaster()
     {
         return $this->httpClient->get('/domain_master');

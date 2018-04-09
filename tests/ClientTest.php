@@ -3,6 +3,7 @@ namespace Muumuu;
 
 use PHPUnit\Framework\TestCase;
 use Muumuu\Client\HttpClient;
+use Muumuu\Client\Response;
 
 class ClientTest extends TestCase
 {
@@ -36,6 +37,22 @@ class ClientTest extends TestCase
         $this->assertEquals('https://test.muumuu-domain.com/api/v1', $client->getConfig()->endpoint());
         $this->assertEquals('bearer-token-xxx', $client->getConfig()->token());
     }
+
+    public function testAuthenticate()
+    {
+        $expectedToken = 'jwt.token';
+
+        $client = new Client();
+
+        $responseMock = $this->createMock(Response::class);
+        $responseMock->method('statusCode')->willReturn(201);
+        $responseMock->method('body')->willReturn(['jwt' => $expectedToken]);
+
+        $client->setMock($this->createMockHttpClient('post', '/authentication', $responseMock));
+        $client->authenticate('id', 'password');
+        $this->assertEquals($expectedToken, $client->getConfig()->token());
+    }
+
     public function testGetDomainMaster()
     {
         $client = new Client();
@@ -65,12 +82,13 @@ class ClientTest extends TestCase
         ]);
     }
 
-    private function createMockHttpClient($method, $path)
+    private function createMockHttpClient($method, $path, $res = null)
     {
         $mock = $this->createMock(HttpClient::class);
         $mock->expects($this->once())
              ->method($method)
-             ->with($this->equalTo($path));
+             ->with($this->equalTo($path))
+             ->willReturn($res);
         return $mock;
     }
 }

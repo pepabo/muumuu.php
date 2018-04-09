@@ -24,6 +24,11 @@ class Config
         }
     }
 
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
     public function endpoint()
     {
         return $this->endpoint;
