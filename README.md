@@ -65,10 +65,13 @@ $client->getCarts();
 <?php
 $client = new Muumuu\Client();
 
+// authenticate
+$client->authenticate('id', 'password');  // POST /authenticate
+
 // without authentication
-$client->getDomainMaster();           // GET /domain_master
+$client->getDomainMaster();               // GET /domain_master
 
 // required authentication
-$client->getCarts();                  // GET /carts
-$client->calculate([]);               // POST /calculate
+$client->getCarts();                      // GET /carts
+$client->calculate([]);                   // POST /calculate
 ```
