@@ -55,10 +55,13 @@ class HttpClientTest extends TestCase
     {
         $options = [
             'http_errors' => false,
+            'headers' => [
+                'Content-Type: ' => 'application/json'
+            ],
             'json' => $params
         ];
         if ($headers) {
-            $options = array_merge($options, ['headers' => $headers]);
+            $options['headers'] = array_merge($options['headers'], $headers);
         }
 
         $mock = $this->createMock(\GuzzleHttp\Client::class);
