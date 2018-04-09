@@ -8,6 +8,7 @@ class HttpClient
 {
     private $config;
     private $httpClient;
+    private $token = null;
 
     public function __construct(Config $config)
     {
@@ -30,18 +31,27 @@ class HttpClient
     {
         $options = [
             'http_errors' => false,
+            'headers' => [
+                'Content-Type: ' => 'application/json'
+            ],
             'json' => $params
         ];
 
-        if (!empty($this->config->token())) {
-            $options = array_merge($options, [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->config->token()
-                ]
-            ]);
+        if (!is_null($this->getToken())) {
+            $options['headers']['Authorization'] = 'Bearer ' . $this->getToken();
         }
 
         return $this->httpClient()->request($method, $this->config->endpoint().$path, $options);
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
     }
 
     private function httpClient()

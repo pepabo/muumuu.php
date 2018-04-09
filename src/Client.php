@@ -20,6 +20,21 @@ class Client
         Config::set($config);
     }
 
+    public function authenticate($id, $password)
+    {
+        $res = $this->httpClient->post('/authentication', [
+            'id' => $id,
+            'password' => $password
+        ]);
+
+        if ($res->statusCode() !== 201) {
+            return false;
+        }
+
+        $this->setToken($res->body()['jwt']);
+        return true;
+    }
+
     public function getDomainMaster()
     {
         return $this->httpClient->get('/domain_master');
@@ -33,6 +48,16 @@ class Client
     public function calculate($params)
     {
         return $this->httpClient->post('/calculate', ['cart' => $params]);
+    }
+
+    public function setToken($token)
+    {
+        $this->httpClient->setToken($token);
+    }
+
+    public function getToken()
+    {
+        return $this->httpClient->getToken();
     }
 
     public function getConfig()

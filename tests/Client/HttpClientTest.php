@@ -11,7 +11,6 @@ class HttpClientTest extends TestCase
     {
         Config::set([
             'endpoint' => '',
-            'token' => '',
         ]);
     }
 
@@ -19,9 +18,8 @@ class HttpClientTest extends TestCase
     {
         $path = '/hello';
 
-        $client = new HttpClient(new Config([
-            'token' => 'bearer-token-xxx'
-        ]));
+        $client = new HttpClient(new Config([]));
+        $client->setToken('bearer-token-xxx');
         $client->setMock($this->createMockClient('GET', $path, [], ['Authorization' => 'Bearer bearer-token-xxx']));
 
         $response = $client->get($path);
@@ -55,10 +53,13 @@ class HttpClientTest extends TestCase
     {
         $options = [
             'http_errors' => false,
+            'headers' => [
+                'Content-Type: ' => 'application/json'
+            ],
             'json' => $params
         ];
         if ($headers) {
-            $options = array_merge($options, ['headers' => $headers]);
+            $options['headers'] = array_merge($options['headers'], $headers);
         }
 
         $mock = $this->createMock(\GuzzleHttp\Client::class);

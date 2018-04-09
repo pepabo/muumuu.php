@@ -3,6 +3,7 @@ namespace Muumuu;
 
 use PHPUnit\Framework\TestCase;
 use Muumuu\Client\HttpClient;
+use Muumuu\Client\Response;
 
 class ClientTest extends TestCase
 {
@@ -10,7 +11,6 @@ class ClientTest extends TestCase
     {
         Client::configure([
             'endpoint' => '',
-            'token' => '',
         ]);
     }
 
@@ -22,20 +22,23 @@ class ClientTest extends TestCase
 
         $client = new Client();
         $this->assertEquals('https://test.muumuu-domain.com/api/v1', $client->getConfig()->endpoint());
-        $this->assertEquals('', $client->getConfig()->token());
     }
 
-    public function testConfigureWithToken()
+    public function testAuthenticate()
     {
-        Client::configure([
-            'endpoint' => 'https://test.muumuu-domain.com/api/v1',
-            'token' => 'bearer-token-xxx',
-        ]);
+        $expectedToken = 'jwt.token';
 
         $client = new Client();
-        $this->assertEquals('https://test.muumuu-domain.com/api/v1', $client->getConfig()->endpoint());
-        $this->assertEquals('bearer-token-xxx', $client->getConfig()->token());
+
+        $responseMock = $this->createMock(Response::class);
+        $responseMock->method('statusCode')->willReturn(201);
+        $responseMock->method('body')->willReturn(['jwt' => $expectedToken]);
+
+        $client->setMock($this->createMockHttpClient('post', '/authentication', $responseMock));
+        $client->authenticate('id', 'password');
+        $this->assertEquals($expectedToken, $client->getToken());
     }
+
     public function testGetDomainMaster()
     {
         $client = new Client();
@@ -65,12 +68,16 @@ class ClientTest extends TestCase
         ]);
     }
 
-    private function createMockHttpClient($method, $path)
+    private function createMockHttpClient($method, $path, $res = null)
     {
-        $mock = $this->createMock(HttpClient::class);
+        $mock = $this->getMockBuilder(HttpClient::class)
+                     ->disableOriginalConstructor()
+                     ->setMethods([$method])
+                     ->getMock();
         $mock->expects($this->once())
              ->method($method)
-             ->with($this->equalTo($path));
+             ->with($this->equalTo($path))
+             ->willReturn($res);
         return $mock;
     }
 }

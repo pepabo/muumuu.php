@@ -42,18 +42,20 @@ Authentication with JWT.
 
 ```php
 <?php
-Muumuu\Client::configure([
-    'endpoint' => 'MUUMUU DOMAIN API ENDPOINT',
-    'token' => 'JWT TOKEN'
-]);
 $client = new Muumuu\Client();
-$client->getCarts();
+if ($client->authenticate('id' /* muumuu id */, 'password' /* login password */)) {
+    $client->getCarts();
+}
 
-// or
-$client = new Muumuu\Client([
-    'endpoint' => 'MUUMUU DOMAIN API ENDPOINT',
-    'token' => 'JWT TOKEN'
-]);
+// get token
+$client = new Muumuu\Client();
+if ($client->authenticate('id', 'password')) {
+    $token = $client->getToken();
+}
+
+// set token
+$client = new Muumuu\Client();
+$client->setToken($token);
 $client->getCarts();
 ```
 
@@ -63,10 +65,13 @@ $client->getCarts();
 <?php
 $client = new Muumuu\Client();
 
+// authenticate
+$client->authenticate('id', 'password');  // POST /authenticate
+
 // without authentication
-$client->getDomainMaster();           // GET /domain_master
+$client->getDomainMaster();               // GET /domain_master
 
 // required authentication
-$client->getCarts();                  // GET /carts
-$client->calculate([]);               // POST /calculate
+$client->getCarts();                      // GET /carts
+$client->calculate([]);                   // POST /calculate
 ```
