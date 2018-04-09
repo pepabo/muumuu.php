@@ -42,11 +42,20 @@ Authentication with JWT.
 
 ```php
 <?php
-Muumuu\Client::configure([
-    'endpoint' => 'MUUMUU DOMAIN API ENDPOINT',
-]);
 $client = new Muumuu\Client();
-$client->authenticate('id' /* muumuu id */, 'password' /* login password */);
+if ($client->authenticate('id' /* muumuu id */, 'password' /* login password */)) {
+    $client->getCarts();
+}
+
+// get token
+$client = new Muumuu\Client();
+if ($client->authenticate('id', 'password')) {
+    $token = $client->getToken();
+}
+
+// set token
+$client = new Muumuu\Client();
+$client->setToken($token);
 $client->getCarts();
 ```
 
