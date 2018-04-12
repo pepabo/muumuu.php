@@ -50,6 +50,11 @@ class Client
         return $this->httpClient->post('/calculate', ['cart' => $params]);
     }
 
+    public function createWordpress(array $params)
+    {
+        return $this->httpClient->post('/wordpress', ['wordpress' => $params]);
+    }
+
     public function setToken($token)
     {
         $this->httpClient->setToken($token);
