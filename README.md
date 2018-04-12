@@ -74,4 +74,5 @@ $client->getDomainMaster();               // GET /domain_master
 // required authentication
 $client->getCarts();                      // GET /carts
 $client->calculate([]);                   // POST /calculate
+$client->createWordpress([]);             // POST /wordpress
 ```

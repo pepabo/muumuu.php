@@ -20,6 +20,13 @@ class Client
         Config::set($config);
     }
 
+    /**
+     * authenticate
+     *
+     * @param string $id        muumuu-domain user id (muumuu-id)
+     * @param string $password  muumuu-domain user password
+     * @return boolean
+     */
     public function authenticate($id, $password)
     {
         $res = $this->httpClient->post('/authentication', [
@@ -48,6 +55,25 @@ class Client
     public function calculate($params)
     {
         return $this->httpClient->post('/calculate', ['cart' => $params]);
+    }
+
+    /**
+     * create WordPress
+     * (required authentication)
+     *
+     * @param array $params
+     *   domain_name    : domain name
+     *   sub_domain     : sub domain
+     *   username       : username for WordPress administrator
+     *   password       : password for WordPress administrator
+     *   payment_method : payment method (require registered in muumuu-domain)
+     *     - 'creditcard'  : creditcard
+     *     - 'osaipo'      : osaipo(https://osaipo.jp/)
+     * @return Muumuu\Client\Response
+     */
+    public function createWordpress(array $params)
+    {
+        return $this->httpClient->post('/wordpress', ['wordpress' => $params]);
     }
 
     public function setToken($token)

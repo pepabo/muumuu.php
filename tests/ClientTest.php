@@ -68,6 +68,19 @@ class ClientTest extends TestCase
         ]);
     }
 
+    public function testCreateWordpress()
+    {
+        $client = new Client();
+        $client->setMock($this->createMockHttpClient('post', '/wordpress'));
+        $client->createWordpress([
+            'domain_name'    => 'example.com',
+            'sub_domain'     => 'muumuu',
+            'username'       => 'muumuu',
+            'password'       => 'MuumuuDomain1234',
+            'payment_method' => 'creditcard',
+        ]);
+    }
+
     private function createMockHttpClient($method, $path, $res = null)
     {
         $mock = $this->getMockBuilder(HttpClient::class)
