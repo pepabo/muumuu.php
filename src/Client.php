@@ -59,6 +59,7 @@ class Client
 
     /**
      * create WordPress
+     * (required authentication)
      *
      * @param array $params
      *   domain_name    : domain name
