@@ -29,7 +29,7 @@ class Client
      */
     public function authenticate($id, $password)
     {
-        $res = $this->httpClient->post('/authentication', [
+        $res = $this->httpClient->post('/authenticate', [
             'id' => $id,
             'password' => $password
         ]);
