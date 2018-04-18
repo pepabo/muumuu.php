@@ -29,7 +29,7 @@ class Client
      */
     public function authenticate($id, $password)
     {
-        $res = $this->httpClient->post('/authentication', [
+        $res = $this->httpClient->post('/authenticate', [
             'id' => $id,
             'password' => $password
         ]);
@@ -73,7 +73,7 @@ class Client
      */
     public function createWordpress(array $params)
     {
-        return $this->httpClient->post('/wordpress', ['wordpress' => $params]);
+        return $this->httpClient->post('/wordpress', $params);
     }
 
     public function setToken($token)

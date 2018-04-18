@@ -34,7 +34,7 @@ class ClientTest extends TestCase
         $responseMock->method('statusCode')->willReturn(201);
         $responseMock->method('body')->willReturn(['jwt' => $expectedToken]);
 
-        $client->setMock($this->createMockHttpClient('post', '/authentication', $responseMock));
+        $client->setMock($this->createMockHttpClient('post', '/authenticate', $responseMock));
         $client->authenticate('id', 'password');
         $this->assertEquals($expectedToken, $client->getToken());
     }
