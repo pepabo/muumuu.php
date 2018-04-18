@@ -73,7 +73,7 @@ class Client
      */
     public function createWordpress(array $params)
     {
-        return $this->httpClient->post('/wordpress', ['wordpress' => $params]);
+        return $this->httpClient->post('/wordpress', $params);
     }
 
     public function setToken($token)
