@@ -42,6 +42,11 @@ class Client
         return true;
     }
 
+    public function me()
+    {
+        return $this->httpClient->get('/me');
+    }
+
     public function getDomainMaster()
     {
         return $this->httpClient->get('/domain_master');
@@ -89,6 +94,11 @@ class Client
     public function getConfig()
     {
         return $this->config;
+    }
+
+    public function setHttpClient($client)
+    {
+        $this->httpClient->setHttpClient($client);
     }
 
     public function setMock($mock)
