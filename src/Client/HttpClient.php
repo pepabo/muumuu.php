@@ -59,6 +59,11 @@ class HttpClient
         return $this->httpClient ?: $this->httpClient = new \GuzzleHttp\Client();
     }
 
+    public function setHttpClient($client)
+    {
+        $this->httpClient = $client;
+    }
+
     public function setMock($mock)
     {
         $this->httpClient = $mock;
