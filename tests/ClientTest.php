@@ -39,6 +39,13 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedToken, $client->getToken());
     }
 
+    public function testMe()
+    {
+        $client = new Client();
+        $client->setMock($this->createMockHttpClient('get', '/me'));
+        $client->me();
+    }
+
     public function testGetDomainMaster()
     {
         $client = new Client();
