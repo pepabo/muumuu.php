@@ -20,7 +20,7 @@ class HttpClientTest extends TestCase
 
         $client = new HttpClient(new Config([]));
         $client->setToken('bearer-token-xxx');
-        $client->setMock($this->createMockClient('GET', $path, [], ['Authorization' => 'Bearer bearer-token-xxx']));
+        $client->setHttpClient($this->createMockClient('GET', $path, [], ['Authorization' => 'Bearer bearer-token-xxx']));
 
         $response = $client->get($path);
     }
@@ -30,7 +30,7 @@ class HttpClientTest extends TestCase
         $path = '/hello';
 
         $client = new HttpClient(new Config([]));
-        $client->setMock($this->createMockClient('GET', $path));
+        $client->setHttpClient($this->createMockClient('GET', $path));
 
         $response = $client->get($path);
         $this->assertEquals(200, $response->statusCode());
@@ -42,7 +42,7 @@ class HttpClientTest extends TestCase
         $path = '/hello';
 
         $client = new HttpClient(new Config([]));
-        $client->setMock($this->createMockClient('POST', $path));
+        $client->setHttpClient($this->createMockClient('POST', $path));
 
         $response = $client->post($path);
         $this->assertEquals(200, $response->statusCode());

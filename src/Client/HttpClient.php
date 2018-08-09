@@ -63,9 +63,4 @@ class HttpClient
     {
         $this->httpClient = $client;
     }
-
-    public function setMock($mock)
-    {
-        $this->httpClient = $mock;
-    }
 }
