@@ -67,6 +67,7 @@ $client = new Muumuu\Client();
 
 // authenticate
 $client->authenticate('id', 'password');  // POST /authenticate
+$client->me();                            // GET /me
 
 // without authentication
 $client->getDomainMaster();               // GET /domain_master

@@ -42,6 +42,11 @@ class Client
         return true;
     }
 
+    public function me()
+    {
+        return $this->httpClient->get('/me');
+    }
+
     public function getDomainMaster()
     {
         return $this->httpClient->get('/domain_master');
