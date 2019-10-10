@@ -88,6 +88,13 @@ class ClientTest extends TestCase
         ]);
     }
 
+    public function testGetHttpClient()
+    {
+        $client = new Client();
+        $client->setMock($this->createMockHttpClient('get', '/me'));
+        $client->getHttpClient()->get('/me');
+    }
+
     private function createMockHttpClient($method, $path, $res = null)
     {
         $mock = $this->getMockBuilder(HttpClient::class)

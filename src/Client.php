@@ -101,6 +101,11 @@ class Client
         $this->httpClient->setHttpClient($client);
     }
 
+    public function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+
     public function setMock($mock)
     {
         $this->httpClient = $mock;
